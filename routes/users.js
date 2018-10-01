@@ -30,6 +30,7 @@ router.post('/', async (req,res) => {
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password,
+		avatar: req.body.avatar
 	});
 	await user.save();
 
@@ -66,6 +67,7 @@ function validate(args) {
 		name: Joi.string().required().min(5).max(255),
 		password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
 		email: Joi.string().required().email(),
+		avatar: Joi.string().required()
 	};
 	return Joi.validate(args, schema);
 }
