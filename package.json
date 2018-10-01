@@ -1,17 +1,21 @@
 {
-  "name": "travelBuddy",
+  "name": "Travel-Buddy",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a travel agent social web application.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "express": "^4.16.3",
     "joi": "^13.6.0",
-    "mongoose": "^5.2.16"
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.2.16",
+    "node-gyp": "^3.8.0"
   }
 }

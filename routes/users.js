@@ -1,3 +1,5 @@
+const _ = require('lodash');
+const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const mongoose = require('mongoose');
 const User = require('../model/user');
@@ -26,12 +28,10 @@ router.post('/', async (req,res) => {
 	let {error} = validate(req.body);
 	if(error) return res.status(400).send(error);
 
-	let user = new User({
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password,
-		avatar: req.body.avatar
-	});
+	let user = new User(_.pick(req.body,['name','email','password','avatar']));
+	const salt = await bcrypt.genSalt(10);
+	user.password = await bcrypt.hash(req.body.password, salt);
+
 	await user.save();
 
 	res.send(user);
@@ -46,11 +46,7 @@ router.put('/:id', async (req,res) => {
 	let user = await User.findOne({_id: req.params.id});
 	if( !user ) return res.status(404).send('No result found');
 
-	user  = await User.findByIdAndUpdate(req.params.id,{
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password
-	});
+	user  = await User.findByIdAndUpdate(req.params.id,req.body);
 
 	res.status(200).send(user);
 });
