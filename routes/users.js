@@ -7,9 +7,9 @@ const User = require('../model/user');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', mid_auth, async (req,res) => {
-	const user = await User.find().sort('-name');
-	res.send(user);
+router.get('/', async (req,res) => {
+	const users = await User.find().sort('-name');
+	res.send(users);
 });
 
 router.get('/:id', async (req,res) => {
