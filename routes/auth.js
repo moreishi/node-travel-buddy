@@ -13,7 +13,7 @@ router.post('/', async (req,res) => {
     const validatePW = await bcrypt.compare(req.body.password,user.password);
     if( !validatePW ) return res.status(404).send('Invalid username or password.');
 
-    const token = jwt.sign(_.pick(user,['name','email']),'secret-pass');
+    const token = user.generateAuthToken();
     res.status(200).send(token);
 
 });

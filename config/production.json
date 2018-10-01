@@ -1,0 +1,3 @@
+{
+    "JWT_PRIVATE_KEY": "PROD_JWT_PRIVATE_KEY"
+}

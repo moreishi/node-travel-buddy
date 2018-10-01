@@ -1,3 +1,4 @@
+const mid_auth = require('../middleware/auth');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
@@ -6,7 +7,7 @@ const User = require('../model/user');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req,res) => {
+router.get('/', mid_auth, async (req,res) => {
 	const user = await User.find().sort('-name');
 	res.send(user);
 });
@@ -34,7 +35,7 @@ router.post('/', async (req,res) => {
 
 	await user.save();
 
-	res.send(user);
+	res.header('x-auth-token',user.generateAuthToken()).send(user);
 
 });
 
