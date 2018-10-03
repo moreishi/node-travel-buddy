@@ -1,3 +1,4 @@
+const NewAccount = require('../event/NewAccount');
 const mid_auth = require('../middleware/auth');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
@@ -34,6 +35,9 @@ router.post('/', async (req,res) => {
 	user.password = await bcrypt.hash(req.body.password, salt);
 
 	await user.save();
+
+	const newaccount = new NewAccount(user);
+		  newaccount.trigger();
 
 	res.header('x-auth-token',user.generateAuthToken()).send(user);
 
