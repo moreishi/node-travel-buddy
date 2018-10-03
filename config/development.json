@@ -4,6 +4,14 @@
     "SUPPORT_EMAIL": "support@domain.com",
     "NOREPLY_EMAIL": "noreply@domain.com",
     "mail": {
+        "smtp": {
+            "host": "smtp.mailtrap.io",
+            "port": 2525,
+            "auth": {
+                "username": "d2b35e743d6908",
+                "password": "3815a8d0549fc4"
+            }
+        },
         "system": {},
         "support": {
             "name": "Support Team",

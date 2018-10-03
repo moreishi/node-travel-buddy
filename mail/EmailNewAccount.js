@@ -9,6 +9,14 @@ function Mail(user) {
     this.reply    = config.get('NOREPLY_EMAIL');
     this.subject  = null;
     this.message  = null;
+    
+    this.host           = config.get('mail.smtp.host');
+    this.port           = config.get('mail.smtp.port');
+    this.username       = config.get('mail.smtp.auth.username');
+    this.password       = config.get('mail.smtp.auth.password');
+
+    this.supp_name      = config.get('mail.support.name');
+    this.supp_email     = config.get('mail.support.email');
 
 }
 
@@ -24,18 +32,18 @@ Mail.prototype.send = async function() {
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        host: 'smtp.mailtrap.io',
-        port: 2525,
+        host: this.host,
+        port: this.port,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: 'd2b35e743d6908', // generated ethereal user
-            pass: '3815a8d0549fc4' // generated ethereal password
+            user: this.username, // generated ethereal user
+            pass: this.password // generated ethereal password
         }
     });
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `${config.get('mail.support.name')} <${config.get('mail.support.email')}>`, // sender address
+        from: `${this.supp_name} <${this.supp_email}>`, // sender address
         to: this.to, // list of receivers
         subject: this.subject, // Subject line
         html: `<b>${this.message}</b>` // html body
@@ -43,9 +51,7 @@ Mail.prototype.send = async function() {
 
     // send mail with defined transport object
     await transporter.sendMail(mailOptions);
-
-    console.log('Message Sent!');
-
+    
 }
 
 module.exports = Mail;
