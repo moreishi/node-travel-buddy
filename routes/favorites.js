@@ -1,15 +1,15 @@
 const mid_auth = require('../middleware/auth');
-const Joi = require('joi');
+const _ = require('lodash');
 const mongoose = require('mongoose');
-const Visit = require('../model/visit');
+const Favorite = require('../model/Favorite');
 const express = require('express');
 const router = express.Router();
 
 router.get('/',mid_auth,async (req,res) => {
-	const visitors = await Visit.find()
+	const favorite = await Favorite.find()
 		.populate('user','name email _id')
 		.populate('visitor','name email _id');
-	res.send(visitors);
+	res.send(favorite);
 });
 
 router.post('/',mid_auth,async (req,res) => {
@@ -17,17 +17,17 @@ router.post('/',mid_auth,async (req,res) => {
 	let profileId = validateObjectId(req.body.profileId);
 	if(!profileId) return res.status(401).send('Invalid profile id');
 
-	profileId = Visit.find({ _id: profileId });
+	profileId = Favorite.find({ _id: profileId });
 	if(!profileId) return res.status(401).send('Invalid profile id');
 
-	const visit = new Visit({
+	const favorite = new Favorite({
 		visitor: req.body.profileId,
 		user: req.user._id
 	});
 
-	await visit.save();
+	await favorite.save();
 
-	res.send(visit);
+	res.send(favorite);
 
 });
 
